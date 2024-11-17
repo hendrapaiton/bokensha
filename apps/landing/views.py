@@ -1,5 +1,5 @@
-from django.shortcuts import redirect
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
 from .forms import LoginForm
@@ -19,3 +19,7 @@ class LoginView(FormView):
         else:
             form.add_error(None, 'Invalid login credentials')
             return self.form_invalid(form)
+        
+class SuccessView(LoginRequiredMixin, TemplateView):
+    template_name = 'success.html'
+    login_url = '/login/'
